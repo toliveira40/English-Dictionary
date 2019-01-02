@@ -1,6 +1,4 @@
 import json
-import difflib
-from difflib import SequenceMatcher
 from difflib import get_close_matches
 
 data = json.load(open("data.json"))
@@ -9,9 +7,11 @@ def translate(word):
     word = word.lower()
     if word in data:
         for d in data:
-            print(data[word])
+            return data[word]
     elif word.title() in data:
-        print(data[word.title()])
+        return data[word.title()]
+    elif word.upper() in data:
+        return data[word.upper()]
     elif len(get_close_matches(word, data.keys())) >0:
         yn = input("Did you min %s instead ? Type y if Yes or n if No > " % get_close_matches(word, data.keys())[0])
         if yn == "y":
@@ -24,11 +24,10 @@ def translate(word):
         return("That word doesn´t exist, please type again > ")
 
 word = input("Choose word > ")
-
 output = (translate(word))
 
 if type(output) == list:
     for item in output:
         print(item)
-    else:
-        print(output)
+else:
+    print(output)
